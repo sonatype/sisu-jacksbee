@@ -40,7 +40,7 @@ import java.util.List;
 public class CodeInsertPlugin
     extends AbstractParameterizablePlugin
 {
-    public static final String NS = "http://sonatype.com/jaxb/overlord/code-insert";
+    public static final String NS = "http://sonatype.org/jacksbee/code-insert";
 
     public static final String CODE = "code";
 

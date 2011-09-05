@@ -22,8 +22,7 @@ import java.util.Map;
 
 /**
  * Stateful helper for {@link ClassOutline} operations.
- * 
- * @author Jamie Whitehouse
+ *
  * @since 1.0
  */
 public class ClassOutlineHelper

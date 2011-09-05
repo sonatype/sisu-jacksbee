@@ -31,14 +31,13 @@ import java.util.List;
 
 /**
  * Base class for plugins creating identity methods (equals and hashcode).
- * 
- * @author Jamie Whitehouse
+ *
  * @since 1.0
  */
 public abstract class AbstractIdentityBuilderPlugin
     extends AbstractParameterizablePlugin
 {
-    public static final String NAMESPACE_URI = "http://sonatype.com/jaxb/overlord/id-builder";
+    public static final String NAMESPACE_URI = "http://sonatype.org/jacksbee/id-builder";
     private static final String TAG_EXCLUDE = "exclude";
     private static final String ATTRIBUTE_FIELDS = "fields";
     private static final String FIELD_DELIMITER = ",";
