@@ -14,6 +14,7 @@
 package org.sonatype.sisu.jacksbee.runtime;
 
 import org.junit.Test;
+import org.sonatype.sisu.litmus.testsupport.TestSupport;
 
 import java.util.Date;
 
@@ -24,6 +25,7 @@ import static org.hamcrest.Matchers.equalTo;
  * Verifies {@link DateTimeAdapter} parsing.
  */
 public class DateTimeAdapterTest
+    extends TestSupport
 {
     @Test
     public void parseIso8601JacksonString() {

@@ -16,6 +16,7 @@ package org.sonatype.sisu.jacksbee.runtime;
 import com.google.common.collect.Lists;
 import com.thoughtworks.xstream.XStream;
 import org.junit.Test;
+import org.sonatype.sisu.litmus.testsupport.TestSupport;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ import static org.junit.Assert.assertEquals;
  * Tests for {@link UniqueList}.
  */
 public class UniqueListTest
+    extends TestSupport
 {
     @Test
     public void testAddDuplicates() {

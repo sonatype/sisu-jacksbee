@@ -13,6 +13,7 @@
 package org.sonatype.sisu.jacksbee.runtime;
 
 import org.junit.Test;
+import org.sonatype.sisu.litmus.testsupport.TestSupport;
 
 import java.util.Date;
 
@@ -23,6 +24,7 @@ import static org.junit.Assert.assertNotNull;
  * Tests for {@link Iso8601Date}.
  */
 public class Iso8601DateTest
+    extends TestSupport
 {
     @Test
     public void testFormatParse() throws Exception {
