@@ -22,7 +22,7 @@
         <artifactId>forge-parent</artifactId>
         <version>10</version>
     </parent>
-    
+
     <groupId>org.sonatype.sisu.jacksbee</groupId>
     <artifactId>jacksbee</artifactId>
     <name>Jacksbee</name>
@@ -100,6 +100,12 @@
                 <groupId>javax.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>
                 <version>2.2.4</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>activation</artifactId>
+                        <groupId>javax.activation</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -251,6 +257,8 @@
                                 <bannedDependencies>
                                     <searchTransitive>true</searchTransitive>
                                     <excludes>
+                                        <!-- since java 6 is required and activation is included -->
+                                        <exclude>javax.activation:activation</exclude>
                                         <!-- Keep junit out, use junit-dep instead -->
                                         <exclude>junit:junit</exclude>
                                         <!-- Keep all JCL out, use jcl-over-slf4j instead -->
