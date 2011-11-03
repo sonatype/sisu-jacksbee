@@ -48,7 +48,10 @@ public class XStreamAliasPlugin
         assert options != null;
 
         for (ClassOutline type : outline.getClasses()) {
-            QName qname = type.target.getTypeName();
+            QName qname = type.target.getElementName();
+            if (qname == null) {
+                qname = type.target.getTypeName();
+            }
             if (qname != null) {
                 addAlias(type.implClass, qname);
             }
