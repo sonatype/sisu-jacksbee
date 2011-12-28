@@ -28,7 +28,7 @@
     <name>Jacksbee</name>
     <packaging>pom</packaging>
 
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <url>https://github.com/sonatype/sisu-jacksbee</url>
 
@@ -59,7 +59,7 @@
 
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
         <build.timestamp>${maven.build.timestamp}</build.timestamp>
-        <build.number/>
+        <build.number />
 
         <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
     </properties>
