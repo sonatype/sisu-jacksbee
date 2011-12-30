@@ -20,15 +20,15 @@
     <parent>
         <groupId>org.sonatype.forge</groupId>
         <artifactId>forge-parent</artifactId>
-        <version>10</version>
+        <version>11</version>
     </parent>
-    
+
     <groupId>org.sonatype.sisu.jacksbee</groupId>
     <artifactId>jacksbee</artifactId>
     <name>Jacksbee</name>
     <packaging>pom</packaging>
 
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
 
     <url>https://github.com/sonatype/sisu-jacksbee</url>
 
@@ -59,7 +59,7 @@
 
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
         <build.timestamp>${maven.build.timestamp}</build.timestamp>
-        <build.number/>
+        <build.number />
 
         <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
     </properties>
@@ -100,6 +100,12 @@
                 <groupId>javax.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>
                 <version>2.2.4</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>activation</artifactId>
+                        <groupId>javax.activation</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -165,7 +171,7 @@
             <dependency>
                 <groupId>org.sonatype.sisu.litmus</groupId>
                 <artifactId>litmus-testsupport</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>1.0</version>
             </dependency>
 
             <!-- INTERNAL -->
@@ -173,13 +179,13 @@
             <dependency>
                 <groupId>org.sonatype.sisu.jacksbee</groupId>
                 <artifactId>jacksbee-runtime</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.sonatype.sisu.jacksbee</groupId>
                 <artifactId>jacksbee-xjc</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -251,6 +257,8 @@
                                 <bannedDependencies>
                                     <searchTransitive>true</searchTransitive>
                                     <excludes>
+                                        <!-- since java 6 is required and activation is included -->
+                                        <exclude>javax.activation:activation</exclude>
                                         <!-- Keep junit out, use junit-dep instead -->
                                         <exclude>junit:junit</exclude>
                                         <!-- Keep all JCL out, use jcl-over-slf4j instead -->
