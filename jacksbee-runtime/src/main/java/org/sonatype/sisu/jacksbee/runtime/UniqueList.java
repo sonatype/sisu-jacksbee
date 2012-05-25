@@ -13,8 +13,6 @@
 
 package org.sonatype.sisu.jacksbee.runtime;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -22,10 +20,9 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A {@link List} which only allows unique elements; similar to {@link Set} but typed as {@link List}.
@@ -46,10 +43,12 @@ public class UniqueList<E>
      * Used to provide object uniqueness.
      */
     @XStreamOmitField
-    private /*final*/ Set<E> unique = Sets.newLinkedHashSet();
+    private /*final*/ Set<E> unique = new LinkedHashSet<E>();
 
     public UniqueList(final List<E> delegate) {
-        checkNotNull(delegate);
+        if (delegate == null) {
+            throw new NullPointerException();
+        }
         this.delegate = delegate;
     }
 
@@ -62,7 +61,11 @@ public class UniqueList<E>
     }
 
     public static <T> UniqueList<T> create(final Iterable<? extends T> elements) {
-        return new UniqueList<T>(Lists.<T>newArrayList(elements));
+        ArrayList<T> tmp = new ArrayList<T>();
+        for (T element : elements) {
+            tmp.add(element);
+        }
+        return new UniqueList<T>(tmp);
     }
 
     @SuppressWarnings({"unused"})
@@ -71,7 +74,7 @@ public class UniqueList<E>
             return null;
         }
         // Rebuild the uniqueness set
-        unique = Sets.newLinkedHashSet();
+        unique = new LinkedHashSet<E>();
         Iterator<E> iter = delegate.iterator();
         while (iter.hasNext()) {
             E element = iter.next();
