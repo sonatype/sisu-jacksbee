@@ -18,7 +18,7 @@ import java.util.Date;
 /**
  * Adapter to handler <tt>xs:dateTime</tt> as <tt>ISO-8601</tt> dates.
  * 
- * @since 1.0
+ * @since 1.1
  */
 public class Iso8601DateTimeAdapter
 {
