@@ -20,7 +20,7 @@ import java.util.Date;
  * 
  * @since 1.0
  */
-public class DateTimeAdapter
+public class Iso8601DateTimeAdapter
 {
     public static Date parse(final String value) {
         try {

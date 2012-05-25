@@ -21,16 +21,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 /**
- * Verifies {@link DateTimeAdapter} parsing.
+ * Verifies {@link Iso8601DateTimeAdapter} parsing.
  */
-public class DateTimeAdapterTest
+public class Iso8601DateTimeAdapterTest
     extends TestSupport
 {
     @Test
     public void parseIso8601JacksonString() {
         String Iso8601StringFromJackson = "2011-02-03T19:25:53.656+0000";
         //String StringFromCalendar = "2011-02-03T14:25:38.649-05:00";
-        DateTimeAdapter.parse(Iso8601StringFromJackson);
+        Iso8601DateTimeAdapter.parse(Iso8601StringFromJackson);
     }
     
     /**
@@ -41,13 +41,13 @@ public class DateTimeAdapterTest
     @Test
     public void generatedFormatIsParsable() {
         Date originalDate = new Date();
-        String dateAsString = DateTimeAdapter.print(originalDate);
-        Date parsedDate = DateTimeAdapter.parse(dateAsString);
+        String dateAsString = Iso8601DateTimeAdapter.print(originalDate);
+        Date parsedDate = Iso8601DateTimeAdapter.parse(dateAsString);
         assertThat( parsedDate, equalTo( originalDate ) );
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void invalidFormat() {
-        DateTimeAdapter.parse("no a valid format");
+        Iso8601DateTimeAdapter.parse("no a valid format");
     }
 }
