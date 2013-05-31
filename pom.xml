@@ -13,352 +13,353 @@
     See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.sonatype.forge</groupId>
-        <artifactId>forge-parent</artifactId>
-        <version>35</version>
-    </parent>
+  <parent>
+    <groupId>org.sonatype.forge</groupId>
+    <artifactId>forge-parent</artifactId>
+    <version>35</version>
+  </parent>
 
-    <groupId>org.sonatype.sisu.jacksbee</groupId>
-    <artifactId>jacksbee</artifactId>
-    <name>${project.groupId}:${project.artifactId}</name>
-    <packaging>pom</packaging>
+  <groupId>org.sonatype.sisu.jacksbee</groupId>
+  <artifactId>jacksbee</artifactId>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <packaging>pom</packaging>
 
-    <version>1.2-SNAPSHOT</version>
+  <version>1.2-SNAPSHOT</version>
 
+  <url>https://github.com/sonatype/sisu-jacksbee</url>
+
+  <organization>
+    <name>Sonatype, Inc.</name>
+    <url>http://www.sonatype.com/</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>ASLv2</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:git://github.com/sonatype/sisu-jacksbee.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/sonatype/sisu-jacksbee.git</developerConnection>
     <url>https://github.com/sonatype/sisu-jacksbee</url>
+  </scm>
 
-    <organization>
-        <name>Sonatype, Inc.</name>
-        <url>http://www.sonatype.com/</url>
-    </organization>
+  <ciManagement>
+    <system>Hudson</system>
+    <url>https://builds.sonatype.org/job/sisu-jacksbee</url>
+  </ciManagement>
 
-    <licenses>
-        <license>
-            <name>ASLv2</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
-        </license>
-    </licenses>
+  <!--<issueManagement>-->
+  <!--<system>Jira</system>-->
+  <!--<url>https://issues.sonatype.org/browse/???</url>-->
+  <!--</issueManagement>-->
 
-    <scm>
-        <connection>scm:git:git://github.com/sonatype/sisu-jacksbee.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/sonatype/sisu-jacksbee.git</developerConnection>
-        <url>https://github.com/sonatype/sisu-jacksbee</url>
-    </scm>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <ciManagement>
-        <system>Hudson</system>
-        <url>https://builds.sonatype.org/job/sisu-jacksbee</url>
-    </ciManagement>
+    <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+    <build.timestamp>${maven.build.timestamp}</build.timestamp>
+    <build.number/>
 
-    <!--<issueManagement>-->
-        <!--<system>Jira</system>-->
-        <!--<url>https://issues.sonatype.org/browse/???</url>-->
-    <!--</issueManagement>-->
+    <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
+  </properties>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
 
-        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
-        <build.timestamp>${maven.build.timestamp}</build.timestamp>
-        <build.number />
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.5</version>
+      </dependency>
 
-        <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
-    </properties>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jcl-over-slf4j</artifactId>
+        <version>1.7.5</version>
+      </dependency>
 
-    <prerequisites>
-        <maven>3.0</maven>
-    </prerequisites>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>1.7.5</version>
+      </dependency>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>1.7.5</version>
-            </dependency>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>14.0.1</version>
+      </dependency>
 
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>jcl-over-slf4j</artifactId>
-                <version>1.7.5</version>
-            </dependency>
+      <dependency>
+        <groupId>org.sonatype.sisu</groupId>
+        <artifactId>sisu-inject-bean</artifactId>
+        <version>2.3.4</version>
+      </dependency>
 
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-simple</artifactId>
-                <version>1.7.5</version>
-            </dependency>
+      <dependency>
+        <groupId>javax.xml.bind</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>2.2.9</version>
+        <exclusions>
+          <exclusion>
+            <artifactId>activation</artifactId>
+            <groupId>javax.activation</groupId>
+          </exclusion>
+        </exclusions>
+      </dependency>
 
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>14.0.1</version>
-            </dependency>
+      <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-impl</artifactId>
+        <version>2.2.8-b01</version>
+      </dependency>
 
-            <dependency>
-                <groupId>org.sonatype.sisu</groupId>
-                <artifactId>sisu-inject-bean</artifactId>
-                <version>2.3.4</version>
-            </dependency>
+      <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-xjc</artifactId>
+        <version>2.2.8-b01</version>
+      </dependency>
 
-            <dependency>
-                <groupId>javax.xml.bind</groupId>
-                <artifactId>jaxb-api</artifactId>
-                <version>2.2.9</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>activation</artifactId>
-                        <groupId>javax.activation</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+      <dependency>
+        <groupId>org.jvnet.jaxb2_commons</groupId>
+        <artifactId>jaxb2-basics</artifactId>
+        <version>0.6.4</version>
+      </dependency>
 
-            <dependency>
-                <groupId>com.sun.xml.bind</groupId>
-                <artifactId>jaxb-impl</artifactId>
-                <version>2.2.8-b01</version>
-            </dependency>
+      <dependency>
+        <groupId>org.jvnet.jaxb2_commons</groupId>
+        <artifactId>jaxb2-basics-tools</artifactId>
+        <version>0.6.4</version>
+        <exclusions>
+          <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
 
-            <dependency>
-                <groupId>com.sun.xml.bind</groupId>
-                <artifactId>jaxb-xjc</artifactId>
-                <version>2.2.8-b01</version>
-            </dependency>
+      <dependency>
+        <groupId>org.jvnet.jaxb2_commons</groupId>
+        <artifactId>jaxb2-basics-annotate</artifactId>
+        <version>0.6.4</version>
+      </dependency>
 
-            <dependency>
-                <groupId>org.jvnet.jaxb2_commons</groupId>
-                <artifactId>jaxb2-basics</artifactId>
-                <version>0.6.4</version>
-            </dependency>
+      <dependency>
+        <groupId>org.jvnet.jaxb2_commons</groupId>
+        <artifactId>jaxb2-fluent-api</artifactId>
+        <version>3.0</version>
+      </dependency>
 
-            <dependency>
-                <groupId>org.jvnet.jaxb2_commons</groupId>
-                <artifactId>jaxb2-basics-tools</artifactId>
-                <version>0.6.4</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+      <dependency>
+        <groupId>org.codehaus.jackson</groupId>
+        <artifactId>jackson-core-asl</artifactId>
+        <version>1.9.12</version>
+      </dependency>
 
-            <dependency>
-                <groupId>org.jvnet.jaxb2_commons</groupId>
-                <artifactId>jaxb2-basics-annotate</artifactId>
-                <version>0.6.4</version>
-            </dependency>
+      <dependency>
+        <groupId>com.thoughtworks.xstream</groupId>
+        <artifactId>xstream</artifactId>
+        <version>1.4.4</version>
+      </dependency>
 
-            <dependency>
-                <groupId>org.jvnet.jaxb2_commons</groupId>
-                <artifactId>jaxb2-fluent-api</artifactId>
-                <version>3.0</version>
-            </dependency>
+      <dependency>
+        <groupId>net.sourceforge.ccxjc</groupId>
+        <artifactId>cc-xjc-plugin</artifactId>
+        <version>2.0.1</version>
+      </dependency>
 
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-core-asl</artifactId>
-                <version>1.9.12</version>
-            </dependency>
+      <dependency>
+        <groupId>org.sonatype.sisu.litmus</groupId>
+        <artifactId>litmus-testsupport</artifactId>
+        <version>1.6</version>
+      </dependency>
 
-            <dependency>
-                <groupId>com.thoughtworks.xstream</groupId>
-                <artifactId>xstream</artifactId>
-                <version>1.4.4</version>
-            </dependency>
+      <!-- INTERNAL -->
 
-            <dependency>
-                <groupId>net.sourceforge.ccxjc</groupId>
-                <artifactId>cc-xjc-plugin</artifactId>
-                <version>2.0.1</version>
-            </dependency>
+      <dependency>
+        <groupId>org.sonatype.sisu.jacksbee</groupId>
+        <artifactId>jacksbee-runtime</artifactId>
+        <version>1.2-SNAPSHOT</version>
+      </dependency>
 
-            <dependency>
-                <groupId>org.sonatype.sisu.litmus</groupId>
-                <artifactId>litmus-testsupport</artifactId>
-                <version>1.6</version>
-            </dependency>
+      <dependency>
+        <groupId>org.sonatype.sisu.jacksbee</groupId>
+        <artifactId>jacksbee-xjc</artifactId>
+        <version>1.2-SNAPSHOT</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
-            <!-- INTERNAL -->
+  <modules>
+    <module>jacksbee-runtime</module>
+    <module>jacksbee-xjc</module>
+  </modules>
 
-            <dependency>
-                <groupId>org.sonatype.sisu.jacksbee</groupId>
-                <artifactId>jacksbee-runtime</artifactId>
-                <version>1.2-SNAPSHOT</version>
-            </dependency>
+  <build>
+    <defaultGoal>install</defaultGoal>
 
-            <dependency>
-                <groupId>org.sonatype.sisu.jacksbee</groupId>
-                <artifactId>jacksbee-xjc</artifactId>
-                <version>1.2-SNAPSHOT</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <resources>
+      <resource>
+        <directory>${project.basedir}/src/main/resources</directory>
+        <filtering>false</filtering>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </resource>
 
-    <modules>
-        <module>jacksbee-runtime</module>
-        <module>jacksbee-xjc</module>
-    </modules>
+      <resource>
+        <directory>${project.basedir}/src/main/filtered-resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </resource>
+    </resources>
 
-    <build>
-        <defaultGoal>install</defaultGoal>
+    <testResources>
+      <testResource>
+        <directory>${project.basedir}/src/test/resources</directory>
+        <filtering>false</filtering>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </testResource>
 
-        <resources>
-            <resource>
-                <directory>${project.basedir}/src/main/resources</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
+      <testResource>
+        <directory>${project.basedir}/src/test/filtered-resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </testResource>
+    </testResources>
 
-            <resource>
-                <directory>${project.basedir}/src/main/filtered-resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-        </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>1.0.1</version>
+        <executions>
+          <execution>
+            <id>checks</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>[3.0,)</version>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>[1.6,)</version>
+                </requireJavaVersion>
+                <bannedDependencies>
+                  <searchTransitive>true</searchTransitive>
+                  <excludes>
+                    <!-- since java 6 is required and activation is included -->
+                    <exclude>javax.activation:activation</exclude>
+                    <!-- Keep junit out, use junit-dep instead -->
+                    <exclude>junit:junit</exclude>
+                    <!-- Keep all JCL out, use jcl-over-slf4j instead -->
+                    <exclude>commons-logging:commons-logging</exclude>
+                    <exclude>commons-logging:commons-logging-api</exclude>
+                  </excludes>
+                </bannedDependencies>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
-        <testResources>
-            <testResource>
-                <directory>${project.basedir}/src/test/resources</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </testResource>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>sisu-maven-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>main-index</goal>
+              <goal>test-index</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
-            <testResource>
-                <directory>${project.basedir}/src/test/filtered-resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </testResource>
-        </testResources>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+            <configuration>
+              <includePom>true</includePom>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.0.1</version>
-                <executions>
-                    <execution>
-                        <id>checks</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>[3.0,)</version>
-                                </requireMavenVersion>
-                                <requireJavaVersion>
-                                    <version>[1.6,)</version>
-                                </requireJavaVersion>
-                                <bannedDependencies>
-                                    <searchTransitive>true</searchTransitive>
-                                    <excludes>
-                                        <!-- since java 6 is required and activation is included -->
-                                        <exclude>javax.activation:activation</exclude>
-                                        <!-- Keep junit out, use junit-dep instead -->
-                                        <exclude>junit:junit</exclude>
-                                        <!-- Keep all JCL out, use jcl-over-slf4j instead -->
-                                        <exclude>commons-logging:commons-logging</exclude>
-                                        <exclude>commons-logging:commons-logging-api</exclude>
-                                    </excludes>
-                                </bannedDependencies>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>sisu-maven-plugin</artifactId>
-                <version>1.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>main-index</goal>
-                            <goal>test-index</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                        <configuration>
-                            <includePom>true</includePom>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!--
-            mvn license:format -N
-            If its a new year, update the year range in the header.txt file
-            -->
-            <plugin>
-                <groupId>com.mycila.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
-                <version>1.9.0</version>
-                <configuration>
-                    <aggregate>true</aggregate>
-                    <strictCheck>true</strictCheck>
-                    <header>${project.basedir}/header.txt</header>
-                    <useDefaultExcludes>false</useDefaultExcludes>
-                    <includes>
-                        <include>**/pom.xml</include>
-                        <include>**/*.xml</include>
-                        <include>**/*.xsd</include>
-                        <include>**/*.xjb</include>
-                        <include>**/*.properties</include>
-                        <include>**/*.ini</include>
-                        <include>**/*.java</include>
-                        <include>**/*.groovy</include>
-                        <include>**/*.scala</include>
-                        <include>**/*.aj</include>
-                        <include>**/*.js</include>
-                        <include>**/*.css</include>
-                        <include>**/*.help</include>
-                        <include>**/*.proto</include>
-                        <include>**/*.sm</include>
-                        <include>**/*.bat</include>
-                    </includes>
-                    <excludes>
-                        <exclude>**/target/**</exclude>
-                        <exclude>**/.*/**</exclude>
-                    </excludes>
-                    <mapping>
-                        <scala>SLASHSTAR_STYLE</scala>
-                        <java>SLASHSTAR_STYLE</java>
-                        <xjb>XML_STYLE</xjb>
-                        <proto>DOUBLESLASH_STYLE</proto>
-                        <sm>DOUBLESLASH_STYLE</sm>
-                        <help>SCRIPT_STYLE</help>
-                        <ini>SCRIPT_STYLE</ini>
-                    </mapping>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+      <!--
+      mvn license:format -N
+      If its a new year, update the year range in the header.txt file
+      -->
+      <plugin>
+        <groupId>com.mycila.maven-license-plugin</groupId>
+        <artifactId>maven-license-plugin</artifactId>
+        <version>1.9.0</version>
+        <configuration>
+          <aggregate>true</aggregate>
+          <strictCheck>true</strictCheck>
+          <header>${project.basedir}/header.txt</header>
+          <useDefaultExcludes>false</useDefaultExcludes>
+          <includes>
+            <include>**/pom.xml</include>
+            <include>**/*.xml</include>
+            <include>**/*.xsd</include>
+            <include>**/*.xjb</include>
+            <include>**/*.properties</include>
+            <include>**/*.ini</include>
+            <include>**/*.java</include>
+            <include>**/*.groovy</include>
+            <include>**/*.scala</include>
+            <include>**/*.aj</include>
+            <include>**/*.js</include>
+            <include>**/*.css</include>
+            <include>**/*.help</include>
+            <include>**/*.proto</include>
+            <include>**/*.sm</include>
+            <include>**/*.bat</include>
+          </includes>
+          <excludes>
+            <exclude>**/target/**</exclude>
+            <exclude>**/.*/**</exclude>
+          </excludes>
+          <mapping>
+            <scala>SLASHSTAR_STYLE</scala>
+            <java>SLASHSTAR_STYLE</java>
+            <xjb>XML_STYLE</xjb>
+            <proto>DOUBLESLASH_STYLE</proto>
+            <sm>DOUBLESLASH_STYLE</sm>
+            <help>SCRIPT_STYLE</help>
+            <ini>SCRIPT_STYLE</ini>
+          </mapping>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
