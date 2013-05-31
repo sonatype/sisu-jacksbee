@@ -24,7 +24,7 @@
     </parent>
 
     <artifactId>jacksbee-xjc</artifactId>
-    <name>Jacksbee XJC</name>
+    <name>${project.groupId}:${project.artifactId}</name>
 
     <dependencies>
         <dependency>
