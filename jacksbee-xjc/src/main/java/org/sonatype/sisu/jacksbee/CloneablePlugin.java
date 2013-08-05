@@ -10,6 +10,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
+
 package org.sonatype.sisu.jacksbee;
 
 import com.sun.codemodel.JBlock;
@@ -32,41 +33,41 @@ import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 public class CloneablePlugin
     extends AbstractParameterizablePlugin
 {
-    @Override
-    public String getOptionName() {
-        return "Xcloneable";
+  @Override
+  public String getOptionName() {
+    return "Xcloneable";
+  }
+
+  @Override
+  public String getUsage() {
+    return "Adds Cloneable and Object.clone() implementation to all classes.";
+  }
+
+  @Override
+  protected boolean run(final Outline outline, final Options options) throws Exception {
+    assert outline != null;
+    assert options != null;
+
+    for (ClassOutline type : outline.getClasses()) {
+      processClassOutline(type);
     }
 
-    @Override
-    public String getUsage() {
-        return "Adds Cloneable and Object.clone() implementation to all classes.";
-    }
+    return true;
+  }
 
-    @Override
-    protected boolean run(final Outline outline, final Options options) throws Exception {
-        assert outline != null;
-        assert options != null;
+  private void processClassOutline(final ClassOutline outline) {
+    assert outline != null;
 
-        for (ClassOutline type : outline.getClasses()) {
-            processClassOutline(type);
-        }
+    JDefinedClass type = outline.implClass;
+    JCodeModel model = type.owner();
+    type._implements(model.ref(Cloneable.class));
 
-        return true;
-    }
+    JMethod method = type.method(JMod.PUBLIC, outline.implRef, "clone");
+    method.annotate(Override.class);
 
-    private void processClassOutline(final ClassOutline outline) {
-        assert outline != null;
-
-        JDefinedClass type = outline.implClass;
-        JCodeModel model = type.owner();
-        type._implements(model.ref(Cloneable.class));
-
-        JMethod method = type.method(JMod.PUBLIC, outline.implRef, "clone");
-        method.annotate(Override.class);
-
-        JBlock body = method.body();
-        JTryBlock block = body._try();
-        block.body()._return(JExpr.cast(outline.implRef, JExpr._super().invoke("clone")));
-        block._catch(model.ref(CloneNotSupportedException.class)).body()._throw(JExpr._new(model.ref(InternalError.class)));
-    }
+    JBlock body = method.body();
+    JTryBlock block = body._try();
+    block.body()._return(JExpr.cast(outline.implRef, JExpr._super().invoke("clone")));
+    block._catch(model.ref(CloneNotSupportedException.class)).body()._throw(JExpr._new(model.ref(InternalError.class)));
+  }
 }

@@ -10,7 +10,13 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
+
 package org.sonatype.sisu.jacksbee;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.annotation.Generated;
 
 import com.sun.codemodel.JAnnotationUse;
 import com.sun.codemodel.JDefinedClass;
@@ -21,10 +27,6 @@ import com.sun.tools.xjc.outline.EnumOutline;
 import com.sun.tools.xjc.outline.Outline;
 import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 
-import javax.annotation.Generated;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Adds {@link Generated} to generated types.
  *
@@ -33,44 +35,44 @@ import java.util.Date;
 public class GeneratedPlugin
     extends AbstractParameterizablePlugin
 {
-    public static final String ISO_8601_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+  public static final String ISO_8601_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
-    @Override
-    public String getOptionName() {
-        return "Xgenerated";
+  @Override
+  public String getOptionName() {
+    return "Xgenerated";
+  }
+
+  @Override
+  public String getUsage() {
+    return "Adds @Generated to generated types.";
+  }
+
+  @Override
+  protected boolean run(final Outline outline, final Options options) throws Exception {
+    assert outline != null;
+    assert options != null;
+
+    for (ClassOutline type : outline.getClasses()) {
+      addGenerated(type.implClass);
     }
 
-    @Override
-    public String getUsage() {
-        return "Adds @Generated to generated types.";
+    for (EnumOutline type : outline.getEnums()) {
+      addGenerated(type.clazz);
     }
 
-    @Override
-    protected boolean run(final Outline outline, final Options options) throws Exception {
-        assert outline != null;
-        assert options != null;
+    return true;
+  }
 
-        for (ClassOutline type : outline.getClasses()) {
-            addGenerated(type.implClass);
-        }
+  private void addGenerated(final JDefinedClass type) {
+    assert type != null;
 
-        for (EnumOutline type : outline.getEnums()) {
-            addGenerated(type.clazz);
-        }
+    JAnnotationUse anno = type.annotate(Generated.class);
+    anno.param("value", String.format("XJC %s", Driver.getBuildID()));
 
-        return true;
-    }
+    Date now = new Date();
+    SimpleDateFormat sdf = new SimpleDateFormat(ISO_8601_FORMAT);
+    anno.param("date", sdf.format(now));
 
-    private void addGenerated(final JDefinedClass type) {
-        assert type != null;
-
-        JAnnotationUse anno = type.annotate(Generated.class);
-        anno.param("value", String.format("XJC %s", Driver.getBuildID()));
-
-        Date now = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat(ISO_8601_FORMAT);
-        anno.param("date", sdf.format(now));
-
-        // TODO: Maybe support customized comments?
-    }
+    // TODO: Maybe support customized comments?
+  }
 }

@@ -10,7 +10,10 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
+
 package org.sonatype.sisu.jacksbee;
+
+import javax.xml.namespace.QName;
 
 import com.sun.codemodel.JAnnotationUse;
 import com.sun.codemodel.JDefinedClass;
@@ -21,8 +24,6 @@ import com.sun.tools.xjc.outline.Outline;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 
-import javax.xml.namespace.QName;
-
 /**
  * Adds {@link XStreamAlias} to generated types.
  *
@@ -31,45 +32,45 @@ import javax.xml.namespace.QName;
 public class XStreamAliasPlugin
     extends AbstractParameterizablePlugin
 {
-    @Override
-    public String getOptionName() {
-        return "XxstreamAlias";
+  @Override
+  public String getOptionName() {
+    return "XxstreamAlias";
+  }
+
+  @Override
+  public String getUsage() {
+    return "Adds @XStreamAlias to generated types.";
+  }
+
+  @Override
+  protected boolean run(final Outline outline, final Options options) throws Exception {
+    assert outline != null;
+    assert options != null;
+
+    for (ClassOutline type : outline.getClasses()) {
+      QName qname = type.target.getElementName();
+      if (qname == null) {
+        qname = type.target.getTypeName();
+      }
+      if (qname != null) {
+        addAlias(type.implClass, qname);
+      }
     }
 
-    @Override
-    public String getUsage() {
-        return "Adds @XStreamAlias to generated types.";
+    for (EnumOutline type : outline.getEnums()) {
+      QName qname = type.target.getTypeName();
+      if (qname != null) {
+        addAlias(type.clazz, qname);
+      }
     }
 
-    @Override
-    protected boolean run(final Outline outline, final Options options) throws Exception {
-        assert outline != null;
-        assert options != null;
+    return true;
+  }
 
-        for (ClassOutline type : outline.getClasses()) {
-            QName qname = type.target.getElementName();
-            if (qname == null) {
-                qname = type.target.getTypeName();
-            }
-            if (qname != null) {
-                addAlias(type.implClass, qname);
-            }
-        }
-
-        for (EnumOutline type : outline.getEnums()) {
-            QName qname = type.target.getTypeName();
-            if (qname != null) {
-                addAlias(type.clazz, qname);
-            }
-        }
-
-        return true;
-    }
-
-    private void addAlias(final JDefinedClass type, final QName qname) {
-        assert type != null;
-        assert qname != null;
-        JAnnotationUse anno = type.annotate(XStreamAlias.class);
-        anno.param("value", qname.getLocalPart());
-    }
+  private void addAlias(final JDefinedClass type, final QName qname) {
+    assert type != null;
+    assert qname != null;
+    JAnnotationUse anno = type.annotate(XStreamAlias.class);
+    anno.param("value", qname.getLocalPart());
+  }
 }

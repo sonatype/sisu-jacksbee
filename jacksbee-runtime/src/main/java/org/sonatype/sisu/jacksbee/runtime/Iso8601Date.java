@@ -10,6 +10,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
+
 package org.sonatype.sisu.jacksbee.runtime;
 
 import java.text.DateFormat;
@@ -24,27 +25,27 @@ import java.util.Date;
  */
 public class Iso8601Date
 {
-    public static final String PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"; //NON-NLS
-    //public static final String PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZ";
-    //public static final String PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
+  public static final String PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"; //NON-NLS
+  //public static final String PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZ";
+  //public static final String PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
 
-    public static final SimpleDateFormat FORMAT = new SimpleDateFormat(PATTERN);
+  public static final SimpleDateFormat FORMAT = new SimpleDateFormat(PATTERN);
 
-    private static DateFormat getFormat() {
-        return (DateFormat) FORMAT.clone();
+  private static DateFormat getFormat() {
+    return (DateFormat) FORMAT.clone();
+  }
+
+  public static Date parse(final String value) throws ParseException {
+    if (value == null) {
+      throw new NullPointerException();
     }
+    return getFormat().parse(value);
+  }
 
-    public static Date parse(final String value) throws ParseException {
-        if (value == null) {
-            throw new NullPointerException();
-        }
-        return getFormat().parse(value);
+  public static String format(final Date date) {
+    if (date == null) {
+      throw new NullPointerException();
     }
-
-    public static String format(final Date date) {
-        if (date == null) {
-            throw new NullPointerException();
-        }
-        return getFormat().format(date);
-    }
+    return getFormat().format(date);
+  }
 }

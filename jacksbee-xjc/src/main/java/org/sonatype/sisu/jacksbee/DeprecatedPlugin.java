@@ -10,6 +10,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
+
 package org.sonatype.sisu.jacksbee;
 
 import com.sun.codemodel.JAnnotationUse;
@@ -28,34 +29,34 @@ import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 public class DeprecatedPlugin
     extends AbstractParameterizablePlugin
 {
-    @Override
-    public String getOptionName() {
-        return "Xdeprecated";
+  @Override
+  public String getOptionName() {
+    return "Xdeprecated";
+  }
+
+  @Override
+  public String getUsage() {
+    return "Adds @Deprecated to generated types.";
+  }
+
+  @Override
+  protected boolean run(final Outline outline, final Options options) throws Exception {
+    assert outline != null;
+    assert options != null;
+
+    for (ClassOutline type : outline.getClasses()) {
+      addGenerated(type.implClass);
     }
 
-    @Override
-    public String getUsage() {
-        return "Adds @Deprecated to generated types.";
+    for (EnumOutline type : outline.getEnums()) {
+      addGenerated(type.clazz);
     }
 
-    @Override
-    protected boolean run(final Outline outline, final Options options) throws Exception {
-        assert outline != null;
-        assert options != null;
+    return true;
+  }
 
-        for (ClassOutline type : outline.getClasses()) {
-            addGenerated(type.implClass);
-        }
-
-        for (EnumOutline type : outline.getEnums()) {
-            addGenerated(type.clazz);
-        }
-
-        return true;
-    }
-
-    private void addGenerated(final JDefinedClass type) {
-        assert type != null;
-        JAnnotationUse anno = type.annotate(Deprecated.class);
-    }
+  private void addGenerated(final JDefinedClass type) {
+    assert type != null;
+    JAnnotationUse anno = type.annotate(Deprecated.class);
+  }
 }

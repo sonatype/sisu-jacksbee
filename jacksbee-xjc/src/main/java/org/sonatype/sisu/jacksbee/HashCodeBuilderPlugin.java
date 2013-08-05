@@ -10,6 +10,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
+
 package org.sonatype.sisu.jacksbee;
 
 import com.sun.codemodel.JBlock;
@@ -31,57 +32,57 @@ import com.sun.tools.xjc.outline.FieldOutline;
 public class HashCodeBuilderPlugin
     extends AbstractIdentityBuilderPlugin
 {
-    public static final String COMMONS = "org.apache.commons.lang.builder.HashCodeBuilder";
+  public static final String COMMONS = "org.apache.commons.lang.builder.HashCodeBuilder";
 
-    public static final String GWT = "com.flipthebird.gwthashcodeequals.HashCodeBuilder";
-    
-    private String builderType = COMMONS;
-    
-    public String getBuilderType() {
-        return builderType;
-    }
-    
-    public void setBuilderType(final String builderType) {
-        assert builderType != null;
-        this.builderType = builderType;
-    }
-    
-    @Override
-    public String getOptionName() {
-        return "XhashCodeBuilder";
-    }
+  public static final String GWT = "com.flipthebird.gwthashcodeequals.HashCodeBuilder";
 
-    @Override
-    public String getUsage() {
-        return "Adds hashCode() to all classes.";
-    }
+  private String builderType = COMMONS;
 
-    protected void processClassOutline(final ClassOutline outline) {
-        assert outline != null;
+  public String getBuilderType() {
+    return builderType;
+  }
 
-        JDefinedClass type = outline.implClass;
-        JCodeModel model = type.owner();
+  public void setBuilderType(final String builderType) {
+    assert builderType != null;
+    this.builderType = builderType;
+  }
 
-        JMethod method = type.method(JMod.PUBLIC, model.INT, "hashCode");
-        method.annotate(Override.class);
+  @Override
+  public String getOptionName() {
+    return "XhashCodeBuilder";
+  }
 
-        JBlock body = method.body();
-        JType builderType = model.ref(getBuilderType());
-        JVar builder = body.decl(JMod.FINAL, builderType, "builder", JExpr._new(builderType));
+  @Override
+  public String getUsage() {
+    return "Adds hashCode() to all classes.";
+  }
 
-        // Use accessors because collection based fields are lazy initialized to
-        // empty collections on access and won't always be equal via field access.
-        // I.e. null vs empty collections.
-        ClassOutlineHelper helper = new ClassOutlineHelper(outline);
-        for (FieldOutline field : outline.getDeclaredFields()) {
-            if (isFieldApplicable(field)) {
-                JMethod accessor = helper.findAccessor(field);
-                if (accessor != null) {
-                    body.add(builder.invoke("append").arg(JExpr._this().invoke(accessor)));
-                }
-            }
+  protected void processClassOutline(final ClassOutline outline) {
+    assert outline != null;
+
+    JDefinedClass type = outline.implClass;
+    JCodeModel model = type.owner();
+
+    JMethod method = type.method(JMod.PUBLIC, model.INT, "hashCode");
+    method.annotate(Override.class);
+
+    JBlock body = method.body();
+    JType builderType = model.ref(getBuilderType());
+    JVar builder = body.decl(JMod.FINAL, builderType, "builder", JExpr._new(builderType));
+
+    // Use accessors because collection based fields are lazy initialized to
+    // empty collections on access and won't always be equal via field access.
+    // I.e. null vs empty collections.
+    ClassOutlineHelper helper = new ClassOutlineHelper(outline);
+    for (FieldOutline field : outline.getDeclaredFields()) {
+      if (isFieldApplicable(field)) {
+        JMethod accessor = helper.findAccessor(field);
+        if (accessor != null) {
+          body.add(builder.invoke("append").arg(JExpr._this().invoke(accessor)));
         }
-
-        body._return(builder.invoke("build"));
+      }
     }
+
+    body._return(builder.invoke("build"));
+  }
 }

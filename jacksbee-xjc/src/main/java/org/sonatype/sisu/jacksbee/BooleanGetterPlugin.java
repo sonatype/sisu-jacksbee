@@ -10,6 +10,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
+
 package org.sonatype.sisu.jacksbee;
 
 import com.sun.codemodel.JMethod;
@@ -28,32 +29,32 @@ import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 public class BooleanGetterPlugin
     extends AbstractParameterizablePlugin
 {
-    @Override
-    public String getOptionName() {
-        return "XbooleanGetter";
-    }
+  @Override
+  public String getOptionName() {
+    return "XbooleanGetter";
+  }
 
-    @Override
-    public String getUsage() {
-        return "Replaces isXXX() methods with getXXX() for getters of type java.lang.Boolean.";
-    }
+  @Override
+  public String getUsage() {
+    return "Replaces isXXX() methods with getXXX() for getters of type java.lang.Boolean.";
+  }
 
-    @Override
-    protected boolean run(final Outline outline, final Options options) throws Exception {
-        assert outline != null;
-        assert options != null;
+  @Override
+  protected boolean run(final Outline outline, final Options options) throws Exception {
+    assert outline != null;
+    assert options != null;
 
-        for (ClassOutline type : outline.getClasses()) {
-            for (JMethod method : type.implClass.methods()) {
-                if (method.name().startsWith("is") && method.listParams().length == 0) {
-                    JType rtype = method.type();
-                    if (rtype.fullName().equals(Boolean.class.getName())) {
-                        method.name("get" + method.name().substring(2));
-                    }
-                }
-            }
+    for (ClassOutline type : outline.getClasses()) {
+      for (JMethod method : type.implClass.methods()) {
+        if (method.name().startsWith("is") && method.listParams().length == 0) {
+          JType rtype = method.type();
+          if (rtype.fullName().equals(Boolean.class.getName())) {
+            method.name("get" + method.name().substring(2));
+          }
         }
-
-        return true;
+      }
     }
+
+    return true;
+  }
 }

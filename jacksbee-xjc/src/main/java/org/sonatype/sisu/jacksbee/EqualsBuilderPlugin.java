@@ -10,6 +10,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
+
 package org.sonatype.sisu.jacksbee;
 
 import com.sun.codemodel.JBlock;
@@ -32,64 +33,64 @@ import com.sun.tools.xjc.outline.FieldOutline;
 public class EqualsBuilderPlugin
     extends AbstractIdentityBuilderPlugin
 {
-    public static final String COMMONS = "org.apache.commons.lang.builder.EqualsBuilder";
+  public static final String COMMONS = "org.apache.commons.lang.builder.EqualsBuilder";
 
-    public static final String GWT = "com.flipthebird.gwthashcodeequals.EqualsBuilder";
-    
-    private String builderType = COMMONS;
-    
-    public String getBuilderType() {
-        return builderType;
-    }
-    
-    public void setBuilderType(final String builderType) {
-        assert builderType != null;
-        this.builderType = builderType;
-    }
-    
-    @Override
-    public String getOptionName() {
-        return "XequalsBuilder";
-    }
+  public static final String GWT = "com.flipthebird.gwthashcodeequals.EqualsBuilder";
 
-    @Override
-    public String getUsage() {
-        return "Adds equals() to all classes.";
-    }
-    
-    protected void processClassOutline(final ClassOutline outline) {
-        assert outline != null;
+  private String builderType = COMMONS;
 
-        JDefinedClass type = outline.implClass;
-        JCodeModel model = type.owner();
+  public String getBuilderType() {
+    return builderType;
+  }
 
-        JMethod method = type.method(JMod.PUBLIC, model.BOOLEAN, "equals");
-        method.annotate(Override.class);
+  public void setBuilderType(final String builderType) {
+    assert builderType != null;
+    this.builderType = builderType;
+  }
 
-        JVar param = method.param(JMod.FINAL, Object.class, "obj");
-        JBlock body = method.body();
+  @Override
+  public String getOptionName() {
+    return "XequalsBuilder";
+  }
 
-        body._if(JOp.eq(param, JExpr._null()))._then()._return(JExpr.FALSE);
-        body._if(JExpr._this().eq(param))._then()._return(JExpr.TRUE);
-        body._if(JOp.not(param._instanceof(type)))._then()._return(JExpr.FALSE);
+  @Override
+  public String getUsage() {
+    return "Adds equals() to all classes.";
+  }
 
-        JVar that = body.decl(JMod.FINAL, type, "that", JExpr.cast(type, param));
-        JType builderType = model.ref(getBuilderType());
-        JVar builder = body.decl(JMod.FINAL, builderType, "builder", JExpr._new(builderType));
+  protected void processClassOutline(final ClassOutline outline) {
+    assert outline != null;
 
-        // Use accessors because collection based fields are lazy initialized to
-        // empty collections on access and won't always be equal via field access.
-        // I.e. null vs empty collections.
-        ClassOutlineHelper helper = new ClassOutlineHelper(outline);
-        for (FieldOutline field : outline.getDeclaredFields()) {
-            if (isFieldApplicable(field)) {
-                JMethod accessor = helper.findAccessor(field);
-                if (accessor != null) {
-                    body.add(builder.invoke("append").arg(JExpr._this().invoke(accessor)).arg(that.invoke(accessor)));
-                }
-            }
+    JDefinedClass type = outline.implClass;
+    JCodeModel model = type.owner();
+
+    JMethod method = type.method(JMod.PUBLIC, model.BOOLEAN, "equals");
+    method.annotate(Override.class);
+
+    JVar param = method.param(JMod.FINAL, Object.class, "obj");
+    JBlock body = method.body();
+
+    body._if(JOp.eq(param, JExpr._null()))._then()._return(JExpr.FALSE);
+    body._if(JExpr._this().eq(param))._then()._return(JExpr.TRUE);
+    body._if(JOp.not(param._instanceof(type)))._then()._return(JExpr.FALSE);
+
+    JVar that = body.decl(JMod.FINAL, type, "that", JExpr.cast(type, param));
+    JType builderType = model.ref(getBuilderType());
+    JVar builder = body.decl(JMod.FINAL, builderType, "builder", JExpr._new(builderType));
+
+    // Use accessors because collection based fields are lazy initialized to
+    // empty collections on access and won't always be equal via field access.
+    // I.e. null vs empty collections.
+    ClassOutlineHelper helper = new ClassOutlineHelper(outline);
+    for (FieldOutline field : outline.getDeclaredFields()) {
+      if (isFieldApplicable(field)) {
+        JMethod accessor = helper.findAccessor(field);
+        if (accessor != null) {
+          body.add(builder.invoke("append").arg(JExpr._this().invoke(accessor)).arg(that.invoke(accessor)));
         }
-
-        body._return(builder.invoke("build"));
+      }
     }
+
+    body._return(builder.invoke("build"));
+  }
 }
