@@ -33,11 +33,6 @@
 
   <url>https://github.com/sonatype/sisu-jacksbee</url>
 
-  <organization>
-    <name>Sonatype, Inc.</name>
-    <url>http://www.sonatype.com/</url>
-  </organization>
-
   <licenses>
     <license>
       <name>ASLv2</name>
@@ -50,27 +45,6 @@
     <developerConnection>scm:git:ssh://git@github.com/sonatype/sisu-jacksbee.git</developerConnection>
     <url>https://github.com/sonatype/sisu-jacksbee</url>
   </scm>
-
-  <ciManagement>
-    <system>Hudson</system>
-    <url>https://builds.sonatype.org/job/sisu-jacksbee</url>
-  </ciManagement>
-
-  <!--<issueManagement>-->
-  <!--<system>Jira</system>-->
-  <!--<url>https://issues.sonatype.org/browse/???</url>-->
-  <!--</issueManagement>-->
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-    <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
-    <build.timestamp>${maven.build.timestamp}</build.timestamp>
-    <build.number/>
-
-    <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
-  </properties>
 
   <prerequisites>
     <maven>3.0</maven>
@@ -210,47 +184,10 @@
   <build>
     <defaultGoal>install</defaultGoal>
 
-    <resources>
-      <resource>
-        <directory>${project.basedir}/src/main/resources</directory>
-        <filtering>false</filtering>
-        <includes>
-          <include>**/*</include>
-        </includes>
-      </resource>
-
-      <resource>
-        <directory>${project.basedir}/src/main/filtered-resources</directory>
-        <filtering>true</filtering>
-        <includes>
-          <include>**/*</include>
-        </includes>
-      </resource>
-    </resources>
-
-    <testResources>
-      <testResource>
-        <directory>${project.basedir}/src/test/resources</directory>
-        <filtering>false</filtering>
-        <includes>
-          <include>**/*</include>
-        </includes>
-      </testResource>
-
-      <testResource>
-        <directory>${project.basedir}/src/test/filtered-resources</directory>
-        <filtering>true</filtering>
-        <includes>
-          <include>**/*</include>
-        </includes>
-      </testResource>
-    </testResources>
-
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>1.0.1</version>
         <executions>
           <execution>
             <id>checks</id>
@@ -287,7 +224,6 @@
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>sisu-maven-plugin</artifactId>
-        <version>1.1</version>
         <executions>
           <execution>
             <goals>
@@ -296,68 +232,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>jar-no-fork</goal>
-            </goals>
-            <configuration>
-              <includePom>true</includePom>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!--
-      mvn license:format -N
-      If its a new year, update the year range in the header.txt file
-      -->
-      <plugin>
-        <groupId>com.mycila.maven-license-plugin</groupId>
-        <artifactId>maven-license-plugin</artifactId>
-        <version>1.9.0</version>
-        <configuration>
-          <aggregate>true</aggregate>
-          <strictCheck>true</strictCheck>
-          <header>${project.basedir}/header.txt</header>
-          <useDefaultExcludes>false</useDefaultExcludes>
-          <includes>
-            <include>**/pom.xml</include>
-            <include>**/*.xml</include>
-            <include>**/*.xsd</include>
-            <include>**/*.xjb</include>
-            <include>**/*.properties</include>
-            <include>**/*.ini</include>
-            <include>**/*.java</include>
-            <include>**/*.groovy</include>
-            <include>**/*.scala</include>
-            <include>**/*.aj</include>
-            <include>**/*.js</include>
-            <include>**/*.css</include>
-            <include>**/*.help</include>
-            <include>**/*.proto</include>
-            <include>**/*.sm</include>
-            <include>**/*.bat</include>
-          </includes>
-          <excludes>
-            <exclude>**/target/**</exclude>
-            <exclude>**/.*/**</exclude>
-          </excludes>
-          <mapping>
-            <scala>SLASHSTAR_STYLE</scala>
-            <java>SLASHSTAR_STYLE</java>
-            <xjb>XML_STYLE</xjb>
-            <proto>DOUBLESLASH_STYLE</proto>
-            <sm>DOUBLESLASH_STYLE</sm>
-            <help>SCRIPT_STYLE</help>
-            <ini>SCRIPT_STYLE</ini>
-          </mapping>
-        </configuration>
       </plugin>
     </plugins>
   </build>
