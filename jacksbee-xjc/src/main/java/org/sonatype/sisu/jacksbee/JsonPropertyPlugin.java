@@ -13,13 +13,13 @@
 
 package org.sonatype.sisu.jacksbee;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.codemodel.JAnnotationUse;
 import com.sun.codemodel.JFieldVar;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
 
